@@ -1,0 +1,134 @@
+\documentclass[
+    aps,
+    prd,
+    reprint,
+    amsmath,
+    amssymb,
+    nofootinbib,
+    superscriptaddress
+]{revtex4-2}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage[table]{xcolor}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{placeins}
+\usepackage{tikz}
+\usepackage{listofitems} % for \readlist to create arrays
+
+\tikzstyle{mynode}=[thick,draw=blue,fill=blue!20,circle,minimum size=22]
+
+\usepackage{amsmath} % for aligned
+\usepackage{listofitems} % for \readlist to create arrays
+\usetikzlibrary{arrows.meta} % for arrow size
+\usepackage[outline]{contour} % glow around text
+\contourlength{1.4pt}
+
+% COLORS
+\usepackage{xcolor}
+\colorlet{myred}{red!80!black}
+\colorlet{myblue}{blue!80!black}
+\colorlet{mygreen}{green!60!black}
+\colorlet{myorange}{orange!70!red!60!black}
+\colorlet{mydarkred}{red!30!black}
+\colorlet{mydarkblue}{blue!40!black}
+\colorlet{mydarkgreen}{green!30!black}
+
+% STYLES
+\tikzset{
+  >=latex, % for default LaTeX arrow head
+  node/.style={thick,circle,draw=myblue,minimum size=22,inner sep=0.5,outer sep=0.6},
+  node in/.style={node,green!20!black,draw=mygreen!30!black,fill=mygreen!25},
+  node hidden/.style={node,blue!20!black,draw=myblue!30!black,fill=myblue!20},
+  node convol/.style={node,orange!20!black,draw=myorange!30!black,fill=myorange!20},
+  node out/.style={node,red!20!black,draw=myred!30!black,fill=myred!20},
+  connect/.style={thick,mydarkblue}, %,line cap=round
+  connect arrow/.style={-{Latex[length=4,width=3.5]},thick,mydarkblue,shorten <=0.5,shorten >=1},
+  node 1/.style={node in}, % node styles, numbered for easy mapping with \nstyle
+  node 2/.style={node hidden},
+  node 3/.style={node out}
+}
+\def\nstyle{int(\lay<\Nnodlen?min(2,\lay):3)} % map layer number onto 1, 2, or 3
+
+
+\newcommand{\grayrule}{%
+    \arrayrulecolor{gray!45}
+    \specialrule{0.3pt}{3pt}{3pt}
+    \arrayrulecolor{black}
+}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\newcolumntype{P}[1]{>{\begin{minipage}[t]{#1}\raggedright\arraybackslash}l<{\end{minipage}}}
+
+
+
+\begin{document}
+
+\title{Project 3, FYS-STK3155\\
+Pricing European Options with Physics-Informed Neural Networks: Solving the Black-Scholes Equation via the Heat Equation}
+
+\author{Albert Sjåvåg}
+\author{Teodor Aursnes}
+\author{Jørgen S. Florholmen}
+\affiliation{University of Oslo, Department of Physics}
+
+\date{\today}
+
+
+\begin{abstract}
+\input{Sections/abstract}
+\end{abstract}
+
+\maketitle
+
+\section{{Introduction}}
+%\input{Sections/introduction}
+
+\section{Theory \& methods}\label{sec:theory}
+    %\input{Sections/theory}
+    
+\section{Implementation}\label{sec:implementation}
+    %\input{Sections/implementation}
+
+\section{Results and discussion}\label{sec:results}
+    %\input{Sections/RnD1}
+    %\input{Sections/RnD2}
+    %\input{Sections/RnD3}
+    
+\section{Conclusion}\label{sec:conclusion}
+    %\input{Sections/conclusion}
+
+
+\bibliography{references}
+
+%TC:ignore
+\appendix
+\section*{Appendix}
+\section{Additional derivations}
+    %\input{Sections/appendix}
+
+\section{Declaration of AI use}
+    %\input{llm_declaration/AI_usage_intro}
+    %\input{llm_declaration/llm_text_gen}
+    %\input{llm_declaration/llm_code}
+%TC:endignore
+
+\end{document}
+
