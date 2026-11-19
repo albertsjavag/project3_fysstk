@@ -6,3 +6,7 @@
 
  (University of Oslo, autumn 2026)
 
+Useful command example:
+```bash
+python -m parts.part_a.exact_solution > outputs/parts.part_a.exact_solution.txt
+```
