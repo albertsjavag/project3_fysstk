@@ -1,0 +1,2 @@
+Strike K = 100, expiry T = 1 year, domain S in [36.8, 271.8]
+Price at S = K today (T - t = 1): 10.4506
