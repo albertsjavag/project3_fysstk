@@ -1,8 +1,8 @@
-sin, dx = 0.1, tau = 0.02: max error = 2.73e-03
-sin, dx = 0.1, tau = 0.2: max error = 4.56e-03
-sin, dx = 0.01, tau = 0.02: max error = 2.67e-05
-sin, dx = 0.01, tau = 0.2: max error = 4.51e-05
+sin, dx = 0.1, tau = 0.02: max error = 1.03e-03
+sin, dx = 0.1, tau = 0.2: max error = 1.75e-03
+sin, dx = 0.01, tau = 0.02: max error = 1.03e-05
+sin, dx = 0.01, tau = 0.2: max error = 1.73e-05
 1 week, dx = 0.1: max |u_fd - u_exact| = 7.20e-03 at x = +0.00, max price error = 0.72 at S = 100
-1 year, dx = 0.1: max |u_fd - u_exact| = 4.12e-03 at x = -0.20, max price error = 0.45 at S = 82
-1 week, dx = 0.01: max |u_fd - u_exact| = 1.98e-04 at x = -0.02, max price error = 0.02 at S = 98
-1 year, dx = 0.01: max |u_fd - u_exact| = 2.18e-05 at x = -0.23, max price error = 0.00 at S = 78
+1 year, dx = 0.1: max |u_fd - u_exact| = 2.21e-03 at x = +0.00, max price error = 0.21 at S = 100
+1 week, dx = 0.01: max |u_fd - u_exact| = 1.70e-04 at x = +0.00, max price error = 0.02 at S = 100
+1 year, dx = 0.01: max |u_fd - u_exact| = 2.11e-05 at x = +0.01, max price error = 0.00 at S = 100

@@ -17,6 +17,11 @@ t2 = 1.0       # time to expiry in years: one year, kink smoothed out
 k = 2 * r / sigma**2         # the only combination of r and sigma left in the heat form
 tau_max = sigma**2 * T / 2   # tau at t = 0, one year before expiry
 
+# Explicit scheme: one fixed alpha = dtau / dx^2 for every grid. With this alpha, t1 is exactly one step on the
+# coarsest grid (dx = 1/10); halving dx gives four times as many steps, so t1 and t2 = 52 t1 are hit on every grid.
+dx_coarse = 0.1
+alpha = sigma**2 / 2 * t1 / dx_coarse**2
+
 
 def black_scholes_call(S, time_to_expiry, K=K, r=r, sigma=sigma, q=0.0):
     S = np.asarray(S, dtype=float)

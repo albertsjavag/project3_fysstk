@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from src.problems import L, K, t1, t2, to_heat_variables, u_to_price, bs_initial
+from src.problems import L, K, t1, t2, alpha, to_heat_variables, u_to_price, bs_initial
 from src.problems import bs_left_boundary, bs_right_boundary, bs_exact, sin_exact, sin_initial
 from src.finite_difference import explicit_scheme
 from src.plotting import save_fig
@@ -13,7 +13,7 @@ zero = lambda tau: 0.0
 taus_sin = [0.02, 0.2]
 
 for dx in (0.1, 0.01):
-    x, u_fd = explicit_scheme(sin_initial, zero, zero, 0, 1, dx, taus_sin)
+    x, u_fd = explicit_scheme(sin_initial, zero, zero, 0, 1, dx, alpha, taus_sin)
     for i, tau in enumerate(taus_sin):
         error = np.abs(u_fd[i] - sin_exact(x, tau))
         print(f"sin, dx = {dx}, tau = {tau}: max error = {error.max():.2e}")
@@ -23,7 +23,7 @@ labels = ["1 week", "1 year"]
 runs = {}
 
 for dx in (0.1, 0.01):
-    x, u_fd = explicit_scheme(bs_initial, bs_left_boundary, bs_right_boundary, -L, L, dx, taus_bs)
+    x, u_fd = explicit_scheme(bs_initial, bs_left_boundary, bs_right_boundary, -L, L, dx, alpha, taus_bs)
     runs[dx] = (x, u_fd)
 
 for dx, (x, u_fd) in runs.items():
