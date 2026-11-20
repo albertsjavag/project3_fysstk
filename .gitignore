@@ -270,3 +270,12 @@ $RECYCLE.BIN/
 CLAUDE.md 
 LLM_usage.md 
 Code/reusable_code.ipynb
+
+# LaTeX build files
+*.aux
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*Notes.bib
+report/Overleaf/main.pdf
