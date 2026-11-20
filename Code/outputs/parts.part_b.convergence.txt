@@ -1,0 +1,12 @@
+max |u_fd - u_exact|, rows dx, columns: sin (tau = 0.02), Black-Scholes 1 wk, 4 wk, 13 wk, 52 wk
+dx = 1/10     1.0e-03   7.2e-03   8.3e-03   5.6e-03   2.2e-03
+dx = 1/20     2.6e-04   4.2e-03   2.5e-03   1.2e-03   5.3e-04
+dx = 1/40     6.4e-05   1.3e-03   5.4e-04   2.9e-04   1.3e-04
+dx = 1/80     1.6e-05   2.7e-04   1.3e-04   7.1e-05   3.3e-05
+dx = 1/160    4.0e-06   6.5e-05   3.2e-05   1.8e-05   8.2e-06
+dx = 1/320    1.0e-06   1.6e-05   8.1e-06   4.4e-06   2.1e-06
+sin: slope 2.00
+ 1 weeks: local slopes  0.8  1.7  2.2  2.0  2.0, kink width sqrt(2 tau) = 0.028
+ 4 weeks: local slopes  1.7  2.2  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.055
+13 weeks: local slopes  2.2  2.1  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.100
+52 weeks: local slopes  2.1  2.0  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.200
