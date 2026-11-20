@@ -11,6 +11,8 @@ r = 0.05       # risk-free rate
 sigma = 0.2    # volatility
 T = 1.0        # expiry in years
 L = 1.0        # cut-off: x in [-L, L]
+t1 = 1 / 52    # time to expiry in years: one week, kink still sharp
+t2 = 1.0       # time to expiry in years: one year, kink smoothed out
 
 k = 2 * r / sigma**2         # the only combination of r and sigma left in the heat form
 tau_max = sigma**2 * T / 2   # tau at t = 0, one year before expiry
