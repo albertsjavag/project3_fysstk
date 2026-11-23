@@ -3,6 +3,7 @@ jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 
 from src.network import network
+from src.problems import ramp_heat
 
 
 def d_dxk(fun, k):
@@ -25,6 +26,25 @@ def trial_solution(layers, X, u_initial, right_boundary, x_min, x_max, tau_end, 
     g = u_initial(x) + (x - x_min) / (x_max - x_min) * (right_boundary(tau) - right_boundary(0.0))
 
     # Zero at both ends and at s = 0, so the network cannot change the conditions.
+    bubble = (x - x_min) * (x_max - x) * s
+    return g + bubble * network(layers, X, activation)
+
+
+def kink_free_g(x, tau, u_initial, left_boundary, right_boundary, x_min, x_max):
+    # Like g above, but the kink of the payoff at x = 0 (slope 0 -> 1) is replaced by the heat-smoothed ramp,
+    # which solves the heat equation exactly. What is left for the network is smooth.
+    smooth_part = lambda x: u_initial(x) - jnp.maximum(x, 0.0)          # payoff without its kink
+    raw = lambda x: ramp_heat(x, tau) + smooth_part(x)                    # equals u_initial at tau = 0
+    # Straight lines in x that move both ends onto the boundary values (both are zero at tau = 0).
+    right_fix = (x - x_min) / (x_max - x_min) * (right_boundary(tau) - raw(x_max))
+    left_fix = (x_max - x) / (x_max - x_min) * (left_boundary(tau) - raw(x_min))
+    return raw(x) + right_fix + left_fix
+
+
+def kink_free_trial_solution(layers, X, u_initial, left_boundary, right_boundary, x_min, x_max, tau_end,
+                             activation="tanh"):
+    x, s = X[:, 0], X[:, 1]
+    g = kink_free_g(x, s * tau_end, u_initial, left_boundary, right_boundary, x_min, x_max)
     bubble = (x - x_min) * (x_max - x) * s
     return g + bubble * network(layers, X, activation)
 

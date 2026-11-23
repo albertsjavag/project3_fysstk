@@ -3,8 +3,11 @@ import pytest
 
 from src.problems import (K, r, L, alpha, tau_max, black_scholes_call, to_heat_variables, from_heat_variables,
                           price_to_u, u_to_price, sin_initial, sin_exact, bs_initial, bs_left_boundary,
-                          bs_right_boundary, bs_exact)
+                          bs_right_boundary, bs_exact, ramp_heat)
 from src.finite_difference import explicit_scheme
+from src.network import create_layers, to_jax
+from src.costs import kink_free_trial_solution
+import jax.numpy as jnp
 
 zero = lambda tau: 0.0
 
@@ -111,3 +114,24 @@ def test_scheme_refuses_unstable_alpha():
 def test_scheme_refuses_time_between_two_steps():
     with pytest.raises(ValueError):
         explicit_scheme(sin_initial, zero, zero, 0, 1, 0.1, alpha, [1e-4])
+
+
+# --- The kink-free trial function ---
+
+def test_ramp_heat_starts_as_ramp():
+    x = np.array([-0.5, 0.0, 0.5])
+    assert np.allclose(ramp_heat(x, 0.0), [0.0, 0.0, 0.5])
+
+
+def test_ramp_heat_solves_heat_equation():
+    u_tau, u_xx = time_and_space_derivatives(lambda x, tau: np.asarray(ramp_heat(x, tau)), np.array([-0.1, 0.0, 0.1]), 0.01)
+    assert np.allclose(u_tau, u_xx, rtol=1e-3)
+
+
+def test_kink_free_trial_satisfies_conditions_for_any_weights():
+    layers = to_jax(create_layers([2, 10, 1], np.random.default_rng(0)))   # untrained network
+    u = lambda X: kink_free_trial_solution(layers, X, bs_initial, bs_left_boundary, bs_right_boundary, -L, L, tau_max)
+    x, s = jnp.linspace(-L, L, 5), jnp.linspace(0, 1, 5)
+    assert np.allclose(u(jnp.column_stack([x, jnp.zeros(5)])), bs_initial(x))                         # start
+    assert np.allclose(u(jnp.column_stack([-L * jnp.ones(5), s])), 0.0)                                 # left
+    assert np.allclose(u(jnp.column_stack([L * jnp.ones(5), s])), bs_right_boundary(s * tau_max))       # right

@@ -2,6 +2,7 @@ import numpy as np
 import jax
 jax.config.update("jax_enable_x64", True)   # must come before any JAX array is made, or jnp gives float32
 import jax.numpy as jnp
+from jax.scipy.stats import norm as jnorm
 from scipy.stats import norm
 
 SEED = 2026  # base seed
@@ -86,3 +87,10 @@ def bs_exact(x, tau):
     S, time_to_expiry = from_heat_variables(x, tau)
     C = black_scholes_call(S, time_to_expiry)
     return price_to_u(C, x, tau)
+
+
+def ramp_heat(x, tau):
+    # Solution of the heat equation u_tau = u_xx on the whole line that starts as the ramp max(x, 0):
+    # the ramp smoothed by a normal distribution with variance 2 tau. It holds the kink of the payoff.
+    w = jnp.sqrt(2 * tau) + 1e-12   # + 1e-12: at tau = 0 this gives max(x, 0) without dividing by zero
+    return x * jnorm.cdf(x / w) + w * jnorm.pdf(x / w)
