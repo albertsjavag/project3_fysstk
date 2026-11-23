@@ -1,0 +1,4 @@
+5 seeds, network [2, 30, 30, 1], tanh, learning rate 0.01, 1000 collocation and 500 validation points
+naive        6000 steps, training  10.0 ± 0.1 s, compilation 0.4 s, 1051 parameters
+kink_free    6000 steps, training  10.4 ± 0.3 s, compilation 0.8 s, 1051 parameters
+pinn        20000 steps, training  39.0 ± 3.4 s, compilation 0.4 s, 1051 parameters
