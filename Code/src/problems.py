@@ -58,7 +58,7 @@ def u_to_price(u, x, tau):
 
 
 def sin_initial(x):
-    return np.sin(np.pi * x)
+    return jnp.sin(jnp.pi * x)   # jnp: the networks use it inside JAX code
 
 
 def sin_exact(x, tau):
