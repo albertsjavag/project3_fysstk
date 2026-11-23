@@ -9,14 +9,13 @@ import jax
 jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 
-def create_layers(sizes, rng, hidden_activation="sigmoid"):
+def create_layers(sizes, rng, hidden_activation="tanh"):
     """A list of (W, b) pairs, W of shape (inputs, outputs) as in the template.
 
     sizes = [784, 100, 10] gives two layers: 784 -> 100 -> 10.  The weights are
     drawn with the variance of Eq. (8.74) (He) for ReLU and 1/inputs otherwise,
     the biases are set to 0.01 as in the template.
     """
-    rng = np.random.default_rng(2026) if rng is None else rng
     layers = []
     for n_in, n_out in zip(sizes[:-1], sizes[1:]):
         scale = np.sqrt(2.0 / n_in) if hidden_activation == "relu" else np.sqrt(1.0 / n_in)
@@ -49,3 +48,8 @@ def to_jax(layers):
     """numpy (W, b) pairs from create_layers -> jax arrays (so that jax.grad can trace through them)."""
     return [(jnp.asarray(W), jnp.asarray(b)) for W, b in layers]
 
+def n_parameters(layers):
+    count = 0
+    for W, b in layers:
+        count += W.size + b.size
+    return count
