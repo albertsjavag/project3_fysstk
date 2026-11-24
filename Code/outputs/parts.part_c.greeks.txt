@@ -1,0 +1,7 @@
+Greeks one week before expiry, S in [80, 120]; exact at S = K: Delta 0.5194, Gamma 0.1437
+max |error| (mean ± std over seeds for the networks)
+scheme 1/10      Delta 2.4e-02 ± 0e+00   Gamma 9.6e-02 ± 0e+00
+scheme 1/100     Delta 1.9e-03 ± 0e+00   Gamma 2.9e-03 ± 0e+00
+naive trial      Delta 4.8e-01 ± 1e-03   Gamma 1.4e-01 ± 4e-04
+kink-free trial  Delta 2.1e-02 ± 1e-03   Gamma 1.2e-02 ± 3e-04
+PINN             Delta 2.8e-01 ± 2e-02   Gamma 1.0e-01 ± 4e-03
