@@ -1,0 +1,3 @@
+max |u_exact - g| with the network switched off (N = 0)
+1 week  naive g 8.4e-03   kink-free g 3.0e-03
+1 year  naive g 1.2e-01   kink-free g 1.4e-01
