@@ -1,0 +1,29 @@
+--- 1 week to expiry: max |error| and RMSE in u (mean ± std over 5 seeds), max price error ---
+scheme 1/10            max 7.2e-03 ± 0e+00   RMSE 1.6e-03 ± 0e+00   price 0.719 kr
+scheme 1/100           max 1.7e-04 ± 0e+00   RMSE 2.3e-05 ± 0e+00   price 0.017 kr
+kink-free scheme 1/10  max 1.9e-05 ± 0e+00   RMSE 6.0e-06 ± 0e+00   price 0.002 kr
+naive trial            max 1.1e-02 ± 4e-05   RMSE 1.1e-03 ± 6e-06   price 1.097 kr
+kink-free trial        max 3.2e-04 ± 3e-05   RMSE 6.5e-05 ± 1e-05   price 0.032 kr
+PINN                   max 1.5e-02 ± 2e-03   RMSE 3.8e-03 ± 5e-04   price 1.487 kr
+--- 1 year to expiry: max |error| and RMSE in u (mean ± std over 5 seeds), max price error ---
+scheme 1/10            max 2.2e-03 ± 0e+00   RMSE 7.9e-04 ± 0e+00   price 0.208 kr
+scheme 1/100           max 2.1e-05 ± 0e+00   RMSE 7.9e-06 ± 0e+00   price 0.002 kr
+kink-free scheme 1/10  max 4.0e-04 ± 0e+00   RMSE 2.1e-04 ± 0e+00   price 0.032 kr
+naive trial            max 8.0e-02 ± 6e-04   RMSE 2.1e-02 ± 2e-04   price 7.506 kr
+kink-free trial        max 1.1e-03 ± 2e-04   RMSE 3.1e-04 ± 7e-05   price 0.098 kr
+PINN                   max 1.3e-03 ± 7e-04   RMSE 3.0e-04 ± 2e-05   price 0.091 kr
+--- Cost ---
+scheme 1/10            run time 3.0 ms for all 7 times
+scheme 1/100           run time 304.9 ms for all 7 times
+kink-free scheme 1/10  run time 5.2 ms for all 7 times
+naive trial            training 10.0 ± 0.1 s
+kink-free trial        training 10.4 ± 0.3 s
+PINN                   training 39.0 ± 3.4 s
+evaluating a trained net at 401 x 7 points: 12 ms
+--- Error at S = 103.7 (not on the scheme grid), 1 week to expiry ---
+scheme 1/10            4.1e-03   (linear interpolation)
+scheme 1/100           6.4e-05   (linear interpolation)
+kink-free scheme 1/10  2.9e-03   (linear interpolation)
+naive trial            1.5e-03   (seed 0)
+kink-free trial        2.4e-04   (seed 0)
+PINN                   1.1e-02   (seed 0)

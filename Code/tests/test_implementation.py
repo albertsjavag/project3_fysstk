@@ -6,7 +6,9 @@ from src.problems import (K, r, L, alpha, tau_max, black_scholes_call, to_heat_v
                           bs_right_boundary, bs_exact, ramp_heat)
 from src.finite_difference import explicit_scheme
 from src.network import create_layers, to_jax
-from src.costs import kink_free_trial_solution
+from src.costs import kink_free_trial_solution, trial_solution, residual, hard_cost, d_dxk
+from src import training
+from src.training import train, interior_points, save_run, load_run
 import jax.numpy as jnp
 
 zero = lambda tau: 0.0
@@ -135,3 +137,39 @@ def test_kink_free_trial_satisfies_conditions_for_any_weights():
     assert np.allclose(u(jnp.column_stack([x, jnp.zeros(5)])), bs_initial(x))                         # start
     assert np.allclose(u(jnp.column_stack([-L * jnp.ones(5), s])), 0.0)                                 # left
     assert np.allclose(u(jnp.column_stack([L * jnp.ones(5), s])), bs_right_boundary(s * tau_max))       # right
+
+
+# --- The network machinery ---
+
+def test_autodiff_derivatives_of_x_squared():
+    u = lambda layers, X: X[:, 0] ** 2
+    X = jnp.array([[1.0, 0.0], [3.0, 0.0]])
+    assert np.allclose(d_dxk(u, 0)(None, X), [2.0, 6.0])                 # u_x = 2x
+    assert np.allclose(d_dxk(d_dxk(u, 0), 0)(None, X), [2.0, 2.0])       # u_xx = 2
+
+
+def test_residual_is_zero_for_a_known_solution():
+    # ramp_heat solves u_tau = u_xx, so its residual must vanish. This also checks the 1 / tau_end scaling of time.
+    u = lambda layers, X: ramp_heat(X[:, 0], X[:, 1] * tau_max)
+    X = jnp.array([[-0.2, 0.3], [0.0, 0.5], [0.1, 1.0]])
+    assert np.allclose(residual(u, None, X, tau_max), 0.0, atol=1e-8)
+
+
+def test_saved_network_is_loaded_unchanged(tmp_path, monkeypatch):
+    monkeypatch.setattr(training, "RESULTS_DIR", tmp_path)               # write to a temporary folder, not results/
+    layers = to_jax(create_layers([2, 5, 1], np.random.default_rng(0)))
+    save_run("test_run", layers, np.zeros((2, 2)), {"compile": 0.1, "train": 1.0, "steps": 10})
+    loaded, _, _ = load_run("test_run")
+    for (W, b), (W_loaded, b_loaded) in zip(layers, loaded):
+        assert np.array_equal(W, W_loaded) and np.array_equal(b, b_loaded)
+
+
+def test_hard_coded_network_learns_the_sin_case():
+    # Verification of the networks on the project's own case before Black-Scholes: a short training must work.
+    u = lambda layers, X: trial_solution(layers, X, sin_initial, zero, 0, 1, 0.2)
+    X_col = interior_points(400, 0, 1, np.random.default_rng(0))
+    layers = to_jax(create_layers([2, 20, 20, 1], np.random.default_rng(0)))
+    params, _, _ = train(lambda p: hard_cost(u, p, X_col, 0.2), layers, n_iter=500)
+    x, s = np.linspace(0, 1, 21), 0.5
+    error = np.abs(np.asarray(u(params, jnp.column_stack([x, np.full_like(x, s)]))) - sin_exact(x, 0.2 * s))
+    assert error.max() < 1e-2
