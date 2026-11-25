@@ -4,7 +4,7 @@ import numpy as np
 
 from src.training import grid_search, RESULTS_DIR
 
-methods = ["kink_free"]          #  , "pinn"   the PINN takes much longer; remove it from the list to run one at a time
+methods = ["pinn"]                 # the kink-free scan is done; run one method at a time
 n_seeds = 3
 layers = [1, 2, 3, 4, 5]
 nodes = [10, 30, 50]
