@@ -61,14 +61,22 @@ def hard_cost(u, layers, X_col, tau_end):
     return jnp.mean(residual(u, layers, X_col, tau_end) ** 2)
 
 
-def pinn_cost(layers, X_col, X_initial, X_left, X_right, u_initial, left_boundary, right_boundary,
-              tau_end, w_initial, w_boundary, activation="tanh"):
-    # The network itself is the solution, so the equation and the conditions are all in the cost.
+def pinn_terms(layers, X_col, X_initial, X_left, X_right, u_initial, left_boundary, right_boundary,
+               tau_end, activation="tanh"):
+    # The three unweighted terms of the PINN cost: equation, initial condition and boundaries (left + right).
+    # Kept separate so the loss-weight study can show how they trade against each other.
     u = lambda layers, X: network(layers, X, activation)
 
     residual_term = jnp.mean(residual(u, layers, X_col, tau_end) ** 2)
     initial_term = jnp.mean((u(layers, X_initial) - u_initial(X_initial[:, 0])) ** 2)
     left_term = jnp.mean((u(layers, X_left) - left_boundary(X_left[:, 1] * tau_end)) ** 2)
     right_term = jnp.mean((u(layers, X_right) - right_boundary(X_right[:, 1] * tau_end)) ** 2)
+    return residual_term, initial_term, left_term + right_term
 
-    return residual_term + w_initial * initial_term + w_boundary * (left_term + right_term)
+
+def pinn_cost(layers, X_col, X_initial, X_left, X_right, u_initial, left_boundary, right_boundary,
+              tau_end, w_initial, w_boundary, activation="tanh"):
+    # The network itself is the solution, so the equation and the conditions are all in the cost.
+    residual_term, initial_term, boundary_term = pinn_terms(layers, X_col, X_initial, X_left, X_right, u_initial,
+                                                            left_boundary, right_boundary, tau_end, activation)
+    return residual_term + w_initial * initial_term + w_boundary * boundary_term
