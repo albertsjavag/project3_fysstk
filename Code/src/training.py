@@ -145,3 +145,19 @@ def train_config(method, seed_offset=0, sizes=(2, 30, 30, 1), activation="tanh",
         save_run(name, params, history, timing)
     return {"params": params, "history": history, "timing": timing, "validation": float(history[:, 2].min()),
             "n_parameters": n_parameters(params)}
+
+
+def grid_search(method, layers, nodes, learning_rates, n_seeds, **kwargs):
+    # Validation cost and training time for every layers x nodes x learning rate, over n_seeds seeds.
+    # Adapted from GridSearch_FFNN_reg in the example report's code (D. Haas, FYS-STK4155 project 3).
+    validation = np.zeros((len(layers), len(nodes), len(learning_rates), n_seeds))
+    train_time = np.zeros_like(validation)
+    for a, n_layers in enumerate(layers):
+        for b, n_nodes in enumerate(nodes):
+            sizes = (2,) + (n_nodes,) * n_layers + (1,)          # e.g. 2 layers of 30: (2, 30, 30, 1)
+            for c, learning_rate in enumerate(learning_rates):
+                for i in range(n_seeds):
+                    run = train_config(method, seed_offset=i, sizes=sizes, learning_rate=learning_rate, **kwargs)
+                    validation[a, b, c, i] = run["validation"]
+                    train_time[a, b, c, i] = run["timing"]["train"]
+    return validation, train_time
