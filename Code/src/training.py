@@ -6,6 +6,8 @@ import jax
 jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 
+from src.optimiser import optimiser_step
+
 RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 
 def interior_points(n, x_min, x_max, rng):
@@ -25,28 +27,29 @@ def boundary_points(n, x_edge):
 
 # Training:
 
-def train(cost_fn, params, n_iter=2000, learning_rate=1e-2, every=50, validation_fn=None):
-    # Adam (from adam_minimise, week42monday cell 26). Returns the parameters with the lowest validation value
-    # when validation_fn is given, else the last ones; the history (iteration, cost, validation); and the time.
-    b1, b2, eps = 0.9, 0.999, 1e-8
+def train(cost_fn, params, n_iter=2000, learning_rate=1e-2, every=50, validation_fn=None, optimizer="adam"):
+    # Training loop from adam_minimise (week42monday cell 26); the update itself is optimiser_step from our
+    # projects 1 and 2 ("plain", "momentum", "adagrad", "rmsprop" or "adam"). Returns the parameters with the
+    # lowest validation value when validation_fn is given, else the last ones; the history (iteration, cost,
+    # validation); and the time.
+    leaves, treedef = jax.tree_util.tree_flatten(params)       # optimiser_step updates one array at a time
 
     @jax.jit
-    def step(params, m, v, it):
+    def step(params, states, it):
         cost, grad = jax.value_and_grad(cost_fn)(params)
-        m = jax.tree_util.tree_map(lambda m_, g_: b1 * m_ + (1 - b1) * g_, m, grad)
-        v = jax.tree_util.tree_map(lambda v_, g_: b2 * v_ + (1 - b2) * g_**2, v, grad)
-        params = jax.tree_util.tree_map(
-            lambda p, m_, v_: p - learning_rate * (m_ / (1 - b1**it)) / (jnp.sqrt(v_ / (1 - b2**it)) + eps),
-            params, m, v)
-        return params, m, v, cost
+        updated = [optimiser_step(optimizer, theta, g, state, it, learning_rate)
+                   for theta, g, state in zip(jax.tree_util.tree_leaves(params), jax.tree_util.tree_leaves(grad), states)]
+        params = jax.tree_util.tree_unflatten(treedef, [theta for theta, _ in updated])
+        return params, [state for _, state in updated], cost
 
-    m = jax.tree_util.tree_map(jnp.zeros_like, params)
-    v = jax.tree_util.tree_map(jnp.zeros_like, params)
+    # Every running quantity starts at zero, so the state has the same structure in every step and step is
+    # compiled only once.
+    states = [{"v": jnp.zeros_like(theta), "m": jnp.zeros_like(theta), "r": jnp.zeros_like(theta)} for theta in leaves]
 
     # The first calls compile step (and the validation); time them on their own, so the training time below
     # is training only.
     t0 = time.perf_counter()
-    jax.block_until_ready(step(params, m, v, 1.0))
+    jax.block_until_ready(step(params, states, 1.0))
     if validation_fn is not None:
         jax.block_until_ready(validation_fn(params))
     compile_time = time.perf_counter() - t0
@@ -55,7 +58,7 @@ def train(cost_fn, params, n_iter=2000, learning_rate=1e-2, every=50, validation
     best_params, best_validation = params, np.inf
     t0 = time.perf_counter()
     for it in range(1, n_iter + 1):
-        params, m, v, cost = step(params, m, v, float(it))
+        params, states, cost = step(params, states, float(it))
         if it == 1 or it % every == 0 or it == n_iter:
             row = [it, float(cost)]
             if validation_fn is not None:
@@ -101,7 +104,7 @@ def kink_points(n, x_min, x_max, rng):
 
 
 def train_config(method, seed_offset=0, sizes=(2, 30, 30, 1), activation="tanh", learning_rate=1e-2, n_iter=None,
-                 n_col=1000, placement="uniform", w_initial=100.0, w_boundary=100.0, name=None):
+                 n_col=1000, placement="uniform", w_initial=100.0, w_boundary=100.0, optimizer="adam", name=None):
     # method: "naive" or "kink_free" (hard-coded trial networks) or "pinn". Weights are drawn with seed
     # SEED + seed_offset and the collocation points with SEED + 100 + seed_offset, so each source can be
     # varied on its own; the validation points (SEED + 200) are the same for every run.
@@ -140,7 +143,7 @@ def train_config(method, seed_offset=0, sizes=(2, 30, 30, 1), activation="tanh",
         validation_fn = jax.jit(lambda p: hard_cost(u, p, X_val, tau_max))
 
     params, history, timing = train(cost_fn, layers, n_iter=n_iter, learning_rate=learning_rate,
-                                    validation_fn=validation_fn)
+                                    validation_fn=validation_fn, optimizer=optimizer)
     if name is not None:
         save_run(name, params, history, timing)
     # A diverged run can give NaN; count it as infinitely bad, since np.argmin would otherwise pick NaN as the best.

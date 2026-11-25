@@ -28,7 +28,7 @@ def optimiser_step(method, theta, g, state, t, gamma, beta=0.9, rho=0.99,
         return theta - gamma * g / (jnp.sqrt(r) + eps), state
     if method == "adam":                                     # Eqs. (4.51), (4.52), (4.54), (4.55)
         state["m"] = m = beta1 * state.get("m", 0.0) + (1.0 - beta1) * g
-        state["r"] = r = beta2 * state.get("r", 0.0) + (1.0 - beta2) * g * g
+        state["r"] = r = beta2 * state.get("r", 0.0) + (1.0 - beta2) * (g * g)
         m_hat, r_hat = m / (1.0 - beta1**t), r / (1.0 - beta2**t)
         return theta - gamma * m_hat / (jnp.sqrt(r_hat) + eps), state
     raise ValueError(f"unknown method {method}")
