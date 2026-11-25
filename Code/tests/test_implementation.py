@@ -8,7 +8,8 @@ from src.finite_difference import explicit_scheme
 from src.network import create_layers, to_jax
 from src.costs import kink_free_trial_solution, trial_solution, residual, hard_cost, d_dxk
 from src import training
-from src.training import train, interior_points, save_run, load_run
+from src.training import train, interior_points, save_run, load_run, train_config, kink_points
+from parts.part_d.architecture import grid_search
 import jax.numpy as jnp
 
 zero = lambda tau: 0.0
@@ -173,3 +174,27 @@ def test_hard_coded_network_learns_the_sin_case():
     x, s = np.linspace(0, 1, 21), 0.5
     error = np.abs(np.asarray(u(params, jnp.column_stack([x, np.full_like(x, s)]))) - sin_exact(x, 0.2 * s))
     assert error.max() < 1e-2
+
+
+# --- The part d machinery (tiny runs, so the tests stay fast) ---
+
+def test_same_seed_gives_same_run_and_other_seed_differs():
+    first = train_config("kink_free", seed_offset=0, sizes=(2, 5, 1), n_iter=20)
+    again = train_config("kink_free", seed_offset=0, sizes=(2, 5, 1), n_iter=20)
+    other = train_config("kink_free", seed_offset=1, sizes=(2, 5, 1), n_iter=20)
+    assert first["validation"] == again["validation"]
+    assert first["validation"] != other["validation"]
+
+
+def test_kink_points_put_half_near_the_kink():
+    X = np.asarray(kink_points(100, -L, L, np.random.default_rng(0)))
+    near = X[50:]
+    assert X.shape == (100, 2)
+    assert np.all(np.abs(near[:, 0]) <= 0.2) and np.all(near[:, 1] <= 0.1)
+
+
+def test_grid_search_fills_every_cell():
+    validation, train_time, n_parameters = grid_search("kink_free", [1, 2], [5], [1e-2, 3e-2], 2, n_iter=10)
+    assert validation.shape == (2, 1, 2, 2) and train_time.shape == (2, 1, 2, 2)
+    assert np.all(validation > 0) and np.all(train_time > 0)
+    assert n_parameters.tolist() == [[21], [51]]        # 2-5-1: 21 weights; 2-5-5-1: 51 weights
