@@ -8,8 +8,7 @@ from src.finite_difference import explicit_scheme
 from src.network import create_layers, to_jax
 from src.costs import kink_free_trial_solution, trial_solution, residual, hard_cost, d_dxk
 from src import training
-from src.training import train, interior_points, save_run, load_run, train_config, kink_points
-from parts.part_d.architecture import grid_search
+from src.training import train, interior_points, save_run, load_run, train_config, kink_points, grid_search
 import jax.numpy as jnp
 
 zero = lambda tau: 0.0
@@ -194,7 +193,6 @@ def test_kink_points_put_half_near_the_kink():
 
 
 def test_grid_search_fills_every_cell():
-    validation, train_time, n_parameters = grid_search("kink_free", [1, 2], [5], [1e-2, 3e-2], 2, n_iter=10)
+    validation, train_time = grid_search("kink_free", [1, 2], [5], [1e-2, 3e-2], 2, n_iter=10)
     assert validation.shape == (2, 1, 2, 2) and train_time.shape == (2, 1, 2, 2)
     assert np.all(validation > 0) and np.all(train_time > 0)
-    assert n_parameters.tolist() == [[21], [51]]        # 2-5-1: 21 weights; 2-5-5-1: 51 weights
