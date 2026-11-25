@@ -1,0 +1,47 @@
+As you now know, the Black-Scholes equation is closely related to the heat equation in physics. In fact, we can, and we will, solve the Black-Scholes PDE using the heat equation and its solution. Before doing so, we need to familiarize ourself with the Black-Scholes model, which describes the world in which we will be working in throughout this report. 
+ 
+\subsection{The Black-Scholes model}
+
+First of all, we need to establish which assumptions which are made for the Black-Scholes model. Remember that the Black-Scholes equation is used to price options or other financial derivatives on some underlying, often stocks. The first assumption of the model is that the price of the underlying itself follows a geometric Brownian motion (GBM) with drift $\mu$ and volatility $\sigma$. For simplification, we will also assume that our underlying (which we will call a  "stock") pays no dividends over the interval of time under consideration. The process for the stock price is described by the following equation:
+\begin{equation*}
+    dS_t = \mu S_tdt~+~\sigma S_tdW_t
+\end{equation*}
+where $\mu$ and $\sigma$ are constant. 
+Further, we assume that there exists a money market account (MMA), where we can borrow and lend money at a constant risk free rate $r$. Unless otherwise specified, we assume that $r>0$. If you put $B_0$ in the MMA at time $0$, at time $t$, you end up with
+\begin{equation*}
+    B_t = e^{rt}B_0,
+\end{equation*}
+where, over any discrete interval of time, r is the continuously compounded risk free rate. Finally, we assume that trading takes places continuously, and that there are no transaction costs, no indivisibility, no short-sales constraints and no taxes on financial gains. 
+
+\subsection{Stochastic calculus \& the BS equation}
+Now that we know under which rules we are playing, we can try to find an equation that gives us the price of the derivative at time t. Consider a derivative which, at time T, pays off an amount $g(S_T)$ depending on $S_T$. For example, consider a European call option which gives you the right, but not the obligation, to buy a stock for the price K at expiry T. Then $g(S_T) = max\{S_T-K, 0\}$. 
+
+Now, let $f_t$ be the price of the derivative at time $t$. The question is, given $S_t, \mu, \sigma, r, T$ and a payoff function $g(\cdot)$, what should the price $f_t$ be? Can we write it as a function $V(S_t,t)$? The Black-Scholes equation is the answers to this exact question, and we will see how we can derive it, but first we need to introduce some notions from stochastic calculus, which are essential to the derivation. 
+
+\subsubsection{Stochastic calculus}
+To focus on the more relevant parts of this project we will keep this section short, only containing the core essentials. First, let $X$ be(?) a stochastic process, more specifically a geometric Brownian motion, and let its random evolution be governed by $dX_t = \mu X_tdt + \sigma X_tdW_T$. Here, $\mu$ is called the drift and $\sigma$ the diffusion (or the volatility) of the GBM. Now consider a function 
+
+
+\begin{gather*}
+    f\colon \mathbb{R} \times \mathbb{R}_+ \rightarrow \mathbb{R},
+    \\f\colon (x,t) \mapsto f(x,t).
+\end{gather*}
+and let Y be the process given by $Y_t = f(X_t,t)$. Then Itô's lemma states that Y is again an Itô process and we are therefore allowed to compute its drift and diffusion using Itô's multiplication rules:
+\begin{align*}
+    (dt)^2 = 0,
+    \\(dt)(dW_t) = 0,
+    \\d(W_t)^2 = dt.
+\end{align*}
+Following Itô's lemma, theprocess is described by
+\begin{align*}
+    dY_t = \frac{\partial{f}}{\partial{t}}dt + \frac{\partial{f}}{\partial{x}}dX_t + \frac{1}{2}\frac{\partial^2{f}}{\partial{x^2}}(dX_t)^2.
+\end{align*}
+A GBM is in fact a simple case of an Itô process, so Itô's lemma applies to our GBM as well, and using Itô's multiplication rules we get
+\begin{align*}
+    dY_t = \left(\frac{\partial{f}}{\partial{t}} + \frac{\partial{f}}{\partial{x}}\mu X_t + \frac{1}{2}\frac{\partial^2{f}}{\partial{x^2}}(\sigma X_t)^2\right)dt + \frac{\partial{f}}{\partial{x}}\sigma X_tdW_t
+\end{align*}
+
+
+\subsubsection{The Black-Scholes equation}
+
+%$\frac{\partial{S}}{\partial{T}}$
