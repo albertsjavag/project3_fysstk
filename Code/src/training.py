@@ -143,7 +143,9 @@ def train_config(method, seed_offset=0, sizes=(2, 30, 30, 1), activation="tanh",
                                     validation_fn=validation_fn)
     if name is not None:
         save_run(name, params, history, timing)
-    return {"params": params, "history": history, "timing": timing, "validation": float(history[:, 2].min()),
+    # A diverged run can give NaN; count it as infinitely bad, since np.argmin would otherwise pick NaN as the best.
+    validation = np.where(np.isnan(history[:, 2]), np.inf, history[:, 2]).min()
+    return {"params": params, "history": history, "timing": timing, "validation": float(validation),
             "n_parameters": n_parameters(params)}
 
 
