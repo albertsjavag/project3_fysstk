@@ -10,6 +10,8 @@ nodes = [50]
 learning_rates = [1e-2]
 n_seeds = 5
 
-validation, train_time = grid_search("kink_free", layers, nodes, learning_rates, n_seeds)
+activation = "gelu"         # chosen in the activation scan, so the depth study matches the rest of part d
+
+validation, train_time = grid_search("kink_free", layers, nodes, learning_rates, n_seeds, activation=activation)
 np.savez(RESULTS_DIR / "depth_scan_kink_free.npz", validation=validation[:, 0, 0, :], train_time=train_time[:, 0, 0, :],
-         layers=layers, nodes=nodes, learning_rate=learning_rates[0])
+         layers=layers, nodes=nodes, learning_rate=learning_rates[0], activation=activation)
