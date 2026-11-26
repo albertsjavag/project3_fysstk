@@ -1,5 +1,5 @@
 kink-free trial network (2, 50, 50, 50, 50, 50, 1), gelu, 3 seeds, 6000 steps
-plain     best learning rate 1e-04: validation 1.77e-01 ± 7e-03, training 41.4 s
-momentum  best learning rate 1e-04: validation 1.46e-01 ± 7e-03, training 42.8 s
-rmsprop   best learning rate 1e-03: validation 1.39e-02 ± 4e-03, training 41.5 s
-adam      best learning rate 1e-02: validation 6.25e-03 ± 1e-03, training 44.8 s
+plain     best learning rate 3e-04: validation 1.68e-01 ± 7e-03, training 54.4 s
+momentum  best learning rate 3e-04: validation 1.18e-01 ± 1e-02, training 60.7 s
+rmsprop   best learning rate 1e-03: validation 1.39e-02 ± 4e-03, training 63.8 s
+adam      best learning rate 1e-02: validation 6.25e-03 ± 1e-03, training 109.6 s
