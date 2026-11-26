@@ -1,0 +1,5 @@
+w =       1: residual 3.7e-05 ± 7e-06, initial 8.9e-05 ± 2e-05, boundary 7.5e-06 ± 6e-06, total 1.33e-04, training 84 s
+w =      10: residual 7.6e-05 ± 1e-05, initial 3.5e-05 ± 4e-06, boundary 2.3e-07 ± 1e-07, total 1.12e-04, training 87 s  <- best
+w =     100: residual 5.0e-04 ± 2e-04, initial 1.3e-05 ± 3e-06, boundary 9.6e-07 ± 4e-07, total 5.13e-04, training 86 s
+w =    1000: residual 3.6e-03 ± 7e-04, initial 6.6e-06 ± 1e-06, boundary 5.5e-06 ± 6e-06, total 3.57e-03, training 87 s
+w =   10000: residual 3.3e-02 ± 1e-02, initial 4.3e-06 ± 9e-07, boundary 3.7e-06 ± 3e-06, total 3.33e-02, training 94 s

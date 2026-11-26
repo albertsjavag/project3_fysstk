@@ -1,0 +1,12 @@
+kink-free trial  tanh      validation 1.02e-02 ± 1e-03, training 36.8 s
+kink-free trial  sigmoid   validation 1.39e-02 ± 6e-03, training 33.1 s
+kink-free trial  gelu      validation 6.25e-03 ± 1e-03, training 41.7 s
+kink-free trial  swish     validation 6.43e-03 ± 1e-03, training 40.6 s
+kink-free trial  softplus  validation 2.20e-02 ± 3e-03, training 42.0 s
+kink-free trial  relu      validation 1.02e-02 ± 3e-03, training 26.1 s
+PINN             tanh      validation 5.22e-04 ± 1e-04, training 68.0 s
+PINN             sigmoid   validation 1.95e-03 ± 4e-04, training 67.7 s
+PINN             gelu      validation 5.13e-04 ± 2e-04, training 94.1 s
+PINN             swish     validation 6.41e-04 ± 2e-04, training 84.4 s
+PINN             softplus  validation 1.23e-03 ± 2e-04, training 87.6 s
+PINN             relu      validation 8.36e-02 ± 2e-02, training 24.0 s

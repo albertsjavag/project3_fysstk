@@ -1,0 +1,2 @@
+kink-free trial: best 5 layers x 50 nodes, learning rate 0.01: validation 1.02e-02 ± 1e-03, training 50.9 s, 10401 parameters
+PINN: best 3 layers x 50 nodes, learning rate 0.003: validation 5.22e-04 ± 1e-04, training 73.9 s, 5301 parameters
