@@ -1,0 +1,12 @@
+kink-free trial    250 uniform  points: validation 2.79e-02 ± 5e-04, training 15 s
+kink-free trial    250 kink     points: validation 3.37e-02 ± 9e-03, training 15 s
+kink-free trial   1000 uniform  points: validation 6.25e-03 ± 1e-03, training 41 s
+kink-free trial   1000 kink     points: validation 6.88e-03 ± 3e-04, training 42 s
+kink-free trial   4000 uniform  points: validation 3.83e-03 ± 6e-04, training 159 s
+kink-free trial   4000 kink     points: validation 1.77e-03 ± 1e-03, training 163 s  <- best
+PINN               250 uniform  points: validation 3.96e-04 ± 2e-04, training 44 s
+PINN               250 kink     points: validation 5.67e-04 ± 4e-04, training 47 s
+PINN              1000 uniform  points: validation 1.12e-04 ± 8e-06, training 118 s
+PINN              1000 kink     points: validation 1.96e-04 ± 2e-05, training 121 s
+PINN              4000 uniform  points: validation 1.03e-04 ± 1e-05, training 324 s  <- best
+PINN              4000 kink     points: validation 1.37e-04 ± 2e-05, training 318 s
