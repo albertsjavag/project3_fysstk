@@ -1,8 +1,8 @@
-1 layers: validation 7.61e-02 ± 3e-02 (max/min over seeds 3.1), training 3 s
-2 layers: validation 3.05e-02 ± 7e-03 (max/min over seeds 1.8), training 11 s
-3 layers: validation 1.66e-02 ± 5e-03 (max/min over seeds 2.5), training 20 s
-4 layers: validation 1.50e-02 ± 7e-03 (max/min over seeds 2.9), training 28 s
-5 layers: validation 1.25e-02 ± 5e-03 (max/min over seeds 2.5), training 38 s
-6 layers: validation 1.08e-02 ± 4e-03 (max/min over seeds 3.4), training 43 s
-7 layers: validation 1.23e-02 ± 8e-03 (max/min over seeds 10.9), training 51 s
-8 layers: validation 8.72e-03 ± 4e-03 (max/min over seeds 4.7), training 59 s
+1 layers: validation 9.86e-02 ± 2e-02 (max/min over seeds 1.6), training 7 s
+2 layers: validation 2.02e-02 ± 7e-03 (max/min over seeds 2.7), training 23 s
+3 layers: validation 1.26e-02 ± 4e-03 (max/min over seeds 2.2), training 40 s
+4 layers: validation 1.21e-02 ± 6e-03 (max/min over seeds 3.9), training 54 s
+5 layers: validation 9.37e-03 ± 6e-03 (max/min over seeds 4.1), training 64 s
+6 layers: validation 9.35e-03 ± 6e-03 (max/min over seeds 8.2), training 76 s
+7 layers: validation 8.63e-03 ± 6e-03 (max/min over seeds 7.8), training 92 s
+8 layers: validation 7.16e-03 ± 4e-03 (max/min over seeds 4.1), training 98 s
