@@ -3,13 +3,14 @@ import numpy as np
 from src.training import train_config, RESULTS_DIR
 
 # Kink-free trial network only (the PINN uses Adam, as in the lectures). Each optimizer gets its own learning
-# rates: plain gradient descent and momentum diverge in the first step already at 1e-4, because the residual
-# carries the factor 1 / tau_max = 50, so their gradients are huge.
+# rates: plain gradient descent and momentum need far smaller steps than RMSprop and Adam, which scale the step
+# by the gradient size, because the residual carries the factor 1 / tau_max = 50. The grids are wide enough
+# that the best learning rate is not at an edge (as in project 2).
 learning_rates = {
-    "plain": [1e-6, 1e-5, 1e-4],
-    "momentum": [1e-6, 1e-5, 1e-4],
-    "rmsprop": [1e-3, 1e-2, 1e-1],
-    "adam": [1e-3, 1e-2, 1e-1],
+    "plain": [1e-5, 1e-4, 3e-4, 1e-3],
+    "momentum": [1e-5, 1e-4, 3e-4, 1e-3],
+    "rmsprop": [1e-4, 1e-3, 1e-2, 1e-1],
+    "adam": [1e-4, 1e-3, 1e-2, 1e-1],
 }
 n_seeds = 3
 
@@ -23,7 +24,7 @@ mean[list(act["activations"]).index("relu")] = np.inf     # ReLU is ruled out by
 activation = str(act["activations"][np.argmin(mean)])
 
 optimizers = list(learning_rates)
-validation = np.zeros((len(optimizers), 3, n_seeds))
+validation = np.zeros((len(optimizers), len(learning_rates["adam"]), n_seeds))
 train_time = np.zeros_like(validation)
 for o, optimizer in enumerate(optimizers):
     for j, learning_rate in enumerate(learning_rates[optimizer]):
