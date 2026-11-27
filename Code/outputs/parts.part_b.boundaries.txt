@@ -1,0 +1,6 @@
+L = 0.5, boundary (a):   1 week: max price error 99.904 at S = 165   1 year: max price error 95.101 at S = 165
+L = 0.5, boundary (b):   1 week: max price error  0.017 at S = 100   1 year: max price error  0.064 at S =  61
+L = 1.0, boundary (a):   1 week: max price error 99.904 at S = 272   1 year: max price error 95.123 at S = 272
+L = 1.0, boundary (b):   1 week: max price error  0.017 at S = 100   1 year: max price error  0.002 at S = 100
+L = 1.5, boundary (a):   1 week: max price error 99.904 at S = 448   1 year: max price error 95.123 at S = 448
+L = 1.5, boundary (b):   1 week: max price error  0.017 at S = 100   1 year: max price error  0.002 at S = 100
