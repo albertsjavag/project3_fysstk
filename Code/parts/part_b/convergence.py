@@ -8,7 +8,7 @@ from src.plotting import save_fig
 
 # dx = 1/10 to 1/100, the range the task asks about. dx = 0.1 / n with whole n, so that one week (one step on the
 # coarsest grid) is a whole number of steps, n^2, on every grid, and the strike x = 0 is a grid point.
-dxs = [0.1 / n for n in (1, 2, 3, 4, 5, 6, 8, 10)]
+dxs = [0.1 / n for n in range(1, 11)]
 weeks = [1, 4, 13, 52]
 taus = [sigma**2 / 2 * w / 52 for w in weeks]
 zero = lambda tau: 0.0

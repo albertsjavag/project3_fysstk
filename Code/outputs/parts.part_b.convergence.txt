@@ -5,10 +5,12 @@ dx = 1/30     1.1e-04   2.3e-03   1.0e-03   5.1e-04   2.3e-04
 dx = 1/40     6.4e-05   1.3e-03   5.4e-04   2.9e-04   1.3e-04
 dx = 1/50     4.1e-05   7.5e-04   3.4e-04   1.8e-04   8.4e-05
 dx = 1/60     2.8e-05   5.0e-04   2.3e-04   1.3e-04   5.9e-05
+dx = 1/70     2.1e-05   3.6e-04   1.7e-04   9.3e-05   4.3e-05
 dx = 1/80     1.6e-05   2.7e-04   1.3e-04   7.1e-05   3.3e-05
+dx = 1/90     1.3e-05   2.1e-04   1.0e-04   5.6e-05   2.6e-05
 dx = 1/100    1.0e-05   1.7e-04   8.3e-05   4.5e-05   2.1e-05
 sin: slope 2.00
- 1 weeks: local slopes  0.8  1.5  2.1  2.3  2.3  2.1  2.1, kink width sqrt(2 tau) = 0.028
- 4 weeks: local slopes  1.7  2.3  2.1  2.1  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.055
-13 weeks: local slopes  2.2  2.1  2.0  2.0  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.100
-52 weeks: local slopes  2.1  2.0  2.0  2.0  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.200
+ 1 weeks: local slopes  0.8  1.5  2.1  2.3  2.3  2.2  2.1  2.1  2.1, kink width sqrt(2 tau) = 0.028
+ 4 weeks: local slopes  1.7  2.3  2.1  2.1  2.0  2.0  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.055
+13 weeks: local slopes  2.2  2.1  2.0  2.0  2.0  2.0  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.100
+52 weeks: local slopes  2.1  2.0  2.0  2.0  2.0  2.0  2.0  2.0  2.0, kink width sqrt(2 tau) = 0.200
