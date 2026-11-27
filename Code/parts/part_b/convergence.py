@@ -6,7 +6,9 @@ from src.problems import bs_left_boundary, bs_right_boundary, bs_exact, sin_exac
 from src.finite_difference import explicit_scheme
 from src.plotting import save_fig
 
-dxs = [0.1 / 2**i for i in range(6)]
+# dx = 1/10 to 1/100, the range the task asks about. dx = 0.1 / n with whole n, so that one week (one step on the
+# coarsest grid) is a whole number of steps, n^2, on every grid, and the strike x = 0 is a grid point.
+dxs = [0.1 / n for n in (1, 2, 3, 4, 5, 6, 8, 10)]
 weeks = [1, 4, 13, 52]
 taus = [sigma**2 / 2 * w / 52 for w in weeks]
 zero = lambda tau: 0.0
@@ -34,11 +36,16 @@ for j, w in enumerate(weeks):
 
 fig, ax = plt.subplots()
 for j, w in enumerate(weeks):
-    ax.loglog(dxs, errors_bs[:, j], "o-", label=f"{w} week" + ("s" if w > 1 else ""))
+    line, = ax.loglog(dxs, errors_bs[:, j], "o-", label=f"{w} week" + ("s" if w > 1 else ""))
+    # The width sqrt(2 tau) of the smoothed kink: the error falls as dx^2 once dx is below it. Drawn only when it
+    # lies inside the plotted range (1 and 4 weeks; 13 weeks is at the edge and 52 weeks beyond it).
+    kink_width = np.sqrt(2 * taus[j])
+    if kink_width < 0.9 * dxs[0]:
+        ax.axvline(kink_width, color=line.get_color(), ls="--", lw=0.8)
 ax.loglog(dxs, errors_sin, "s--", color="gray", label="sin")
 ax.loglog(dxs, 0.3 * errors_sin[0] * (np.array(dxs) / dxs[0])**2, "k:", label="slope 2")   # below sin, not on top
 ax.set_xlabel(r"$\Delta x$")
 ax.set_ylabel(r"max $|u_{fd} - u_{exact}|$")
-ax.legend(fontsize=7)
+ax.legend(fontsize=7, loc="lower right")
 
 save_fig(fig, "fd_convergence")
