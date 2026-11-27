@@ -1,0 +1,32 @@
+kink-free trial: [2, 50, 50, 50, 50, 50, 1], gelu, learning rate 0.01, 4000 kink points, 10401 parameters
+kink-free, uniform points: [2, 50, 50, 50, 50, 50, 1], gelu, learning rate 0.01, 4000 uniform points, 10401 parameters
+PINN: [2, 50, 50, 50, 1], gelu, learning rate 0.003, 4000 uniform points, w = 10, 5301 parameters
+naive trial (control): [2, 50, 50, 50, 50, 50, 1], gelu, learning rate 0.01, 4000 kink points, 10401 parameters
+kink-free ReLU (control): [2, 50, 50, 50, 50, 50, 1], relu, learning rate 0.01, 4000 kink points, 10401 parameters
+--- 1 week to expiry: mean ± std over 10 seeds (the scheme has no seeds) ---
+scheme 1/10                max 7.2e-03 ± 0e+00   RMSE 1.6e-03 ± 0e+00   rel. L2 1.3e-03 ± 0e+00   price 0.719 ± 0.000
+scheme 1/100               max 1.7e-04 ± 0e+00   RMSE 2.3e-05 ± 0e+00   rel. L2 2.0e-05 ± 0e+00   price 0.017 ± 0.000
+kink-free scheme 1/10      max 1.9e-05 ± 0e+00   RMSE 6.0e-06 ± 0e+00   rel. L2 4.8e-06 ± 0e+00   price 0.002 ± 0.000
+kink-free trial            max 1.8e-05 ± 8e-06   RMSE 4.9e-06 ± 1e-06   rel. L2 4.3e-06 ± 1e-06   price 0.002 ± 0.001
+kink-free, uniform points  max 1.5e-04 ± 5e-05   RMSE 2.3e-05 ± 8e-06   rel. L2 2.1e-05 ± 7e-06   price 0.015 ± 0.005
+PINN                       max 2.0e-02 ± 2e-03   RMSE 5.2e-03 ± 6e-04   rel. L2 4.6e-03 ± 5e-04   price 1.959 ± 0.164
+naive trial (control)      max 1.1e-02 ± 2e-05   RMSE 1.1e-03 ± 2e-06   rel. L2 9.6e-04 ± 2e-06   price 1.104 ± 0.002
+kink-free ReLU (control)   max 3.7e-04 ± 3e-05   RMSE 3.9e-05 ± 2e-06   rel. L2 3.4e-05 ± 2e-06   price 0.037 ± 0.003
+--- 1 year to expiry: mean ± std over 10 seeds (the scheme has no seeds) ---
+scheme 1/10                max 2.2e-03 ± 0e+00   RMSE 7.9e-04 ± 0e+00   rel. L2 5.7e-04 ± 0e+00   price 0.208 ± 0.000
+scheme 1/100               max 2.1e-05 ± 0e+00   RMSE 7.9e-06 ± 0e+00   rel. L2 6.2e-06 ± 0e+00   price 0.002 ± 0.000
+kink-free scheme 1/10      max 4.0e-04 ± 0e+00   RMSE 2.1e-04 ± 0e+00   rel. L2 1.5e-04 ± 0e+00   price 0.032 ± 0.000
+kink-free trial            max 3.3e-04 ± 1e-04   RMSE 1.6e-04 ± 8e-05   rel. L2 1.3e-04 ± 7e-05   price 0.030 ± 0.016
+kink-free, uniform points  max 2.5e-04 ± 2e-04   RMSE 1.2e-04 ± 1e-04   rel. L2 9.8e-05 ± 9e-05   price 0.026 ± 0.020
+PINN                       max 1.6e-03 ± 7e-04   RMSE 4.1e-04 ± 7e-05   rel. L2 3.2e-04 ± 6e-05   price 0.105 ± 0.026
+naive trial (control)      max 8.0e-02 ± 3e-04   RMSE 2.1e-02 ± 7e-05   rel. L2 1.7e-02 ± 6e-05   price 7.512 ± 0.027
+kink-free ReLU (control)   max 2.5e-02 ± 1e-03   RMSE 5.6e-03 ± 7e-05   rel. L2 4.4e-03 ± 6e-05   price 2.357 ± 0.103
+--- Whole test grid (all times), validation cost and cost ---
+scheme 1/10                R² 0.999998   run time 2.7 ms
+scheme 1/100               R² 1.000000   run time 260.8 ms
+kink-free scheme 1/10      R² 1.000000   run time 4.7 ms
+kink-free trial            R² 1.000000   validation 1.52e-03 ± 8e-04   training 155 ± 6 s
+kink-free, uniform points  R² 1.000000   validation 5.40e-03 ± 3e-03   training 165 ± 2 s
+PINN                       R² 0.999988   validation 9.44e-05 ± 1e-05   training 333 ± 9 s
+naive trial (control)      R² 0.999897   validation 1.41e-03 ± 5e-04   training 168 ± 1 s
+kink-free ReLU (control)   R² 0.999994   validation 2.25e-03 ± 7e-04   training 88 ± 1 s
