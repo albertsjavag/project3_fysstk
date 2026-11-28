@@ -4,7 +4,7 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 from src.problems import (L, SEED, sigma, tau_max, t1, t2, bs_initial, bs_left_boundary, bs_right_boundary,
-                          bs_exact, ramp_heat)
+                          bs_exact)
 from src.network import create_layers, to_jax
 from src.costs import trial_solution, kink_free_g
 from src.plotting import save_fig
@@ -36,9 +36,10 @@ x = np.linspace(-0.15, 0.15, 601)
 u_exact = bs_exact(x, tau)
 
 fig, axes = plt.subplots(2, 1, figsize=(3.4, 3.8), sharex=True)
-axes[0].plot(x, np.asarray(bs_initial(x)), "k--", label="payoff (kink)")
+# The two g's themselves, so each curve below is the exact solution minus the curve of the same colour here.
 axes[0].plot(x, u_exact, color="tab:blue", label="exact, 1 week")
-axes[0].plot(x, np.asarray(ramp_heat(x, tau)), color="tab:green", ls=":", label="heat-smoothed ramp $R$")
+axes[0].plot(x, g_naive(x, tau), color="tab:red", ls="--", label="naive $g$ (kink)")
+axes[0].plot(x, g_kink_free(x, tau), color="tab:green", ls=":", label="kink-free $g$")
 axes[0].set_ylabel(r"$u$")
 axes[0].legend(fontsize=7, loc="upper left")
 
