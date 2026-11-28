@@ -1,18 +1,33 @@
 \subsection{The scheme}
 
+First, to gain som visual understanding of the problem, we plot the 3D-surface of the closed form solution of the call option. The edges $T - t= 0$ and $T = 1$ is marked in red, clearly showing how the solution evolves from the initial kink at $S = K$ to a smooth solution.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{Code/figures/exact_solution.png}
-\caption{Black-Scholes solution bla bla ( kom tilbake når tallene er riktig)}
+\caption{Black-Scholes price C for a European Call Option as a surface over stockprice S and time to maturity $ T - t$. Parameteres are $K = 100$, $r = 0.05$, $\sigma = 0.2$, $T = 1$ and $q = 0$ (no dividents). The domain of $S$ is cropped to $[60, 160]$ for a clean figure. The red curves show $T-t = 0$ and $ T = 1$, showing how the solution smooths out after the kink in $S = K$}
 \label{fig:exact_solution}
 \end{figure}
+
+
+We study the numerical solution of the option with Eulers method as discussed in Sec~\ref{sec:theory}. Figure~\ref{fig:fd_profiles} show the absolute error between the scheme and the exact solution for partitions $\Delta x = 0.1$ and $=0.01$, focusing 1 week to maturity and 1 year. Both $\Delta x = 0.1$ and $0.01$ has a fixed $\alpha = \Delta \tau \,/ \, \Delta x^2 \approx 0.0385$ which we justified in Sec~\ref{sec:implementation}. Our main findings is that the error lies at $ x= 0$ the strike price $S = K$ at both 1 week and 1 year. Also the general trend is that the $\Delta x = 0.1$ grid generally has a higher error, as expected. 
 
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{Code/figures/fd_profiles.png}
-\caption{Feilen skjemaet gjør på BSM}
+\caption{Absolute error $|u_{fd} - u_{exact}|$ between the finite difference solution against the exact.  The blue graphs show $\Delta x = 0.1$ a  more rough grid than $\Delta x = 0.01$. The kink lies at $x = \log(S/K) = 0$. y-axis is log-scale.}
 \label{fig:fd_profiles}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\columnwidth]{Code/figures/fd_convergence.png}
+\caption{
+
+Both x- and y-axis is log-scale.}
+\label{fig:fd_convergence}
 \end{figure}
 
 1. Et kontrollert eksperiment (den viktigste).
@@ -20,8 +35,5 @@ Nøyaktig som du sier: ved å ta knekken ut av nettets oppgave skiller dere to m
 
 er det knekken som gjør nettet dårlig?
 eller er nettet dårlig til opsjonsproblemet generelt?
-
-
-OKAAAY letsgooo
 
 
